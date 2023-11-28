@@ -11,15 +11,16 @@ contract ProtoCoin is ERC20 {
     mapping(address => uint256) private nextMint;
 
     constructor() ERC20("PauliNCoin", "PNC") {
-        _mint(msg.sender, 1000 * 10 ** 18);
+        _owner = msg.sender;
+        _mint(msg.sender, 10000000 * 10 ** 18);
     }
 
-    function mint() public {
+    function mint(address to) public restricted {
         require(_mintAmount > 0, "Minting is not enabled");
-        require(block.timestamp > nextMint[msg.sender], "Not time yet");
+        require(block.timestamp > nextMint[to], "Not time yet");
 
-        _mint(msg.sender, _mintAmount);
-        nextMint[msg.sender] = block.timestamp + _mintDelay;
+        _mint(to, _mintAmount);
+        nextMint[to] = block.timestamp + _mintDelay;
     }
 
     function setMintAmount(uint256 newAmount) public restricted {

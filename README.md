@@ -4,7 +4,7 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 
 Try connect your wallet and use smart contract:
 
-https://testnet.bscscan.com/address/0xdcD796bf1E0ED2C66d7Edd49581370Ffdf84deA2#readContract
+https://testnet.bscscan.com/address/0xE65478782E96861984A02d48214ccA81062Ed4cE#code
 
 Try running some of the following tasks:
 
