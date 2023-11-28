@@ -4,7 +4,7 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 
 Try connect your wallet and use smart contract:
 
-https://testnet.bscscan.com/address/0x5Dfe39F86b9af6cd30a4b9F4bc90bDc79f405340#readContract
+https://testnet.bscscan.com/address/0xdcD796bf1E0ED2C66d7Edd49581370Ffdf84deA2#readContract
 
 Try running some of the following tasks:
 
@@ -15,4 +15,5 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
+
 # ProtoCoin---PEBC20---HardHat

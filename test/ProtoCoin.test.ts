@@ -19,13 +19,13 @@ describe("ProtoCoin Tests", function () {
   it("Should have correct name", async function () {
     const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
     const name = await protocoin.name();
-    expect(name).to.equal("ProtoCoin");
+    expect(name).to.equal("PauliNCoin");
   });
 
   it("Should have correct decimals", async function () {
     const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
     const symbol = await protocoin.symbol();
-    expect(symbol).to.equal("PRC");
+    expect(symbol).to.equal("PNC");
   });
 
   it("Should have correct decimals", async function () {
@@ -126,5 +126,66 @@ describe("ProtoCoin Tests", function () {
     await expect(
       instance.transferFrom(owner.address, otherAccount.address, 1n)
     ).to.be.rejectedWith("insufficiente allowance");
+  });
+
+  it("Should mint once", async () => {
+    const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
+
+    const mintAmount = 1000n;
+    await protocoin.setMintAmount(mintAmount);
+
+    const balanceBefore = await protocoin.balanceOf(otherAccount.address);
+
+    const instance = protocoin.connect(otherAccount);
+    await instance.mint();
+
+    const balanceAfter = await protocoin.balanceOf(otherAccount.address);
+    expect(balanceAfter).to.equal(balanceBefore + mintAmount);
+  });
+
+  it("Should mint twice (different accounts)", async () => {
+    const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
+
+    const mintAmount = 1000n;
+    await protocoin.setMintAmount(mintAmount);
+
+    const balanceBefore = await protocoin.balanceOf(owner.address);
+    await protocoin.mint();
+
+    const instance = protocoin.connect(otherAccount);
+    await instance.mint();
+
+    const balanceAfter = await protocoin.balanceOf(otherAccount.address);
+    expect(balanceAfter).to.equal(balanceBefore + mintAmount);
+  });
+
+  it("Should mint twice (different moments)", async () => {
+    const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
+
+    const mintAmount = 1000n;
+    await protocoin.setMintAmount(mintAmount);
+
+    const balanceBefore = await protocoin.balanceOf(owner.address);
+    await protocoin.mint();
+
+    const mintDelay = 60 * 60 * 24 * 2;
+    await time.increase(mintDelay);
+
+    await protocoin.mint();
+
+    const balanceAfter = await protocoin.balanceOf(otherAccount.address);
+    expect(balanceAfter).to.equal(balanceBefore + mintAmount);
+  });
+
+  it("Should NOT set mint amount", async () => {
+    const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
+
+    const mintAmount = 1000n;
+
+    const instance = protocoin.connect(otherAccount);
+
+    await expect(instance.setMintAmount(mintAmount)).to.be.revertedWith(
+      "You do not have permission"
+    );
   });
 });
