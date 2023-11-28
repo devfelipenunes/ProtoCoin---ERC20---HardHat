@@ -14,9 +14,9 @@ const config: HardhatUserConfig = {
         mnemonic: "test test test test test test test test test test test junk",
       },
     },
-    sepolia: {
-      url: process.env.INFURA_URL,
-      chainId: 11155111,
+    bsctest: {
+      url: process.env.BNB_URL,
+      chainId: 97,
       accounts: {
         mnemonic: process.env.SECRET,
       },

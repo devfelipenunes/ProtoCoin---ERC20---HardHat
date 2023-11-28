@@ -66,9 +66,9 @@ describe("ProtoCoin Tests", function () {
     const { protocoin, owner, otherAccount } = await loadFixture(deployFixture);
 
     const instance = protocoin.connect(otherAccount);
-    await expect(instance.transfer(owner.address, 1n)).to.be.revertedWith(
-      "Insufficient balance"
-    );
+    await expect(
+      instance.transfer(owner.address, 1n)
+    ).to.be.revertedWithCustomError(protocoin, "ERC20InsufficientBalance");
   });
 
   it("Should NOT transfer", async function () {
